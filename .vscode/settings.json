@@ -1,0 +1,17 @@
+{
+  "eslint.validate": ["javascript"],
+  "vsicons.associations.folders": [
+    {
+      "icon": "db",
+      "extensions": ["migration", "migrations"]
+    },
+    {
+      "icon": "memcached",
+      "extensions": ["cache"]
+    },
+    {
+      "icon": "middleware",
+      "extensions": ["decorators"]
+    }
+  ]
+}
