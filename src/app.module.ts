@@ -5,6 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { CreateUserController } from './create-user/create-user.controller';
 import { SendMailProducerService } from './jobs/sendMail-producer-service';
 import { SendMailConsumer } from './jobs/sendMail-consumer';
+import { BullBoardModule } from '@bull-board/nestjs';
+import { ExpressAdapter } from '@bull-board/express';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 // import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 @Module({
@@ -28,6 +31,14 @@ import { SendMailConsumer } from './jobs/sendMail-consumer';
     }),
     BullModule.registerQueue({
       name: 'sendMail-queue',
+    }),
+    BullBoardModule.forFeature({
+      name: 'sendMail-queue',
+      adapter: BullMQAdapter, //or use BullAdapter if you're using bull instead of bullMQ
+    }),
+    BullBoardModule.forRoot({
+      route: '/admin/queues',
+      adapter: ExpressAdapter, // Or FastifyAdapter from `@bull-board/fastify`
     }),
   ],
   controllers: [CreateUserController],
