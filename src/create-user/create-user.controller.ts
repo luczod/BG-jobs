@@ -1,11 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CreateUserDTO } from './create-user-dto';
+import { SendMailProducerService } from 'src/jobs/sendMail-producer-service';
 
 @Controller('create-user')
 export class CreateUserController {
-  @Get('/')
-  createUser() {
-    return {
-      msg: 'oi',
-    };
+  constructor(private sendMailService: SendMailProducerService) {}
+
+  @Post('/')
+  async createUser(@Body() createUser: CreateUserDTO) {
+    this.sendMailService.sendMail(createUser);
+
+    return createUser;
   }
 }
