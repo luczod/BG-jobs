@@ -1,5 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { OnQueueEvent, Processor, WorkerHost } from '@nestjs/bullmq';
+import { OnQueueEvent, OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { CreateUserDTO } from 'src/create-user/create-user-dto';
 
@@ -23,19 +23,19 @@ class SendMailConsumer extends WorkerHost {
     return {};
   }
 
-  @OnQueueEvent('active')
-  onActive(job: Job<CreateUserDTO>) {
-    console.log(`On Active ${job.data.name}`);
+  @OnWorkerEvent('active')
+  onActive(job: Job) {
+    console.log(`On Active ${job.name}`);
   }
 
-  @OnQueueEvent('progress')
-  onProgress(job: Job<CreateUserDTO>) {
-    console.log(`On Progress ${job.data.name}`);
+  @OnWorkerEvent('progress')
+  onProgress(job: Job) {
+    console.log(`On Progress ${job.name}`);
   }
 
-  @OnQueueEvent('completed')
-  onCompleted(job: Job<CreateUserDTO>) {
-    console.log(`On Completed ${job.data.name}`);
+  @OnWorkerEvent('completed')
+  onCompleted(job: Job) {
+    console.log(`On Completed ${job.name}`);
   }
 }
 
